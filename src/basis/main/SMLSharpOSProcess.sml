@@ -84,7 +84,7 @@ infix 3 :=
         fun from_tm tm : Time.time = Time.+ (Time.fromSeconds     (LargeInt.fromInt (#1 tm))
                                             ,Time.fromNanoseconds (Word.toLargeInt  (#2 tm)))
         val rem_time = ref time
-        val sleep_max = LargeInt.fromInt (valOf (Int.maxInt))
+        val sleep_max = LargeInt.fromWord 0wxFFFFFFFF
       in
         while (Time.< (Time.zeroTime, (!rem_time))) do
         ( let
