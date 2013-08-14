@@ -22,8 +22,8 @@ infix 3 :=
       _import "getenv"
       : __attribute__((no_callback)) string -> char ptr
   val prim_sleep =
-      _import "sleep"
-      : __attribute__((no_callback)) word -> word
+      _import "nanosleep"
+      : __attribute__((no_callback)) (int * word, int * word) -> int
   val prim_system =
       _import "system"
       : __attribute__((no_callback)) string -> int
@@ -80,11 +80,25 @@ infix 3 :=
 
   fun sleep time =
       let
-        val seconds = Time.toSeconds time
+        fun nano_part tm = Word.fromLargeInt (Time.toNanoseconds (Time.- (tm, Time.fromSeconds (Time.toSeconds tm))))
+        fun from_tm tm : Time.time = Time.+ (Time.fromSeconds     (LargeInt.fromInt (#1 tm))
+                                            ,Time.fromNanoseconds (Word.toLargeInt  (#2 tm)))
+        val rem_time = ref time
+        val sleep_max = LargeInt.fromInt (valOf (Int.maxInt))
       in
-        if SMLSharp.Int.lteq (LargeInt.sign seconds, 0)
-        then ()
-        else (prim_sleep (Word.fromLargeInt seconds); ())
+        while (Time.< (Time.zeroTime, (!rem_time))) do
+        ( let
+            val sec = LargeInt.min (sleep_max, Time.toSeconds (!rem_time))
+            val req_tm = (LargeInt.toInt sec, nano_part(!rem_time))
+            val rem_tm = (0, 0w0)
+          in
+            rem_time := (if prim_sleep (req_tm, rem_tm)=0
+                         then
+                           Time.- (!rem_time, from_tm req_tm)
+                         else (* ~1 *)
+                           Time.+ ( Time.- (!rem_time, from_tm req_tm), from_tm rem_tm))
+          end
+        )
       end
-
 end
+
