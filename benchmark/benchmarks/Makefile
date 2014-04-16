@@ -2,7 +2,7 @@ SMLSHARP = ../../src/compiler/smlsharp -B ../../src
 DOIT_SUFFIX =
 LIBS =
 
-all: \
+BENCHMARKS = \
     barnes_hut2/doit$(DOIT_SUFFIX) \
     barnes_hut/doit$(DOIT_SUFFIX) \
     boyer/doit$(DOIT_SUFFIX) \
@@ -30,10 +30,19 @@ all: \
     tsp/doit$(DOIT_SUFFIX) \
     vliw/doit$(DOIT_SUFFIX)
 
+
+all: $(BENCHMARKS)
+
 .SUFFIXES: .o .smi .sml
 
 .sml.o:
 	$(SMLSHARP) -c -o $@ $<
 
+benchmark: $(BENCHMARKS)
+	for test in $^; do \
+		time ./$$test; \
+	done
+
 include link.mk
 include depend.mk
+
