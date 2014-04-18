@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/env bash
 
-BENCHMARKS='
+BENCHMARKS=(
     barnes_hut2
     barnes_hut
     boyer
@@ -26,7 +26,7 @@ BENCHMARKS='
     ray
     simple
     tsp
-    vliw'
+    vliw)
 
 function toAbsolutePath () {
 	echo $(cd $(dirname $1) && pwd)/$(basename $1)
@@ -40,8 +40,8 @@ function run () {
 	local readonly temp=$(mktemp)
 	trap "rm -rf $temp" EXIT
 	cd $1
-	/usr/bin/time -f "${format}" -o ${temp} ./doit > $log_dir
-	local readonly result=$?
+		/usr/bin/time -f "${format}" -o ${temp} ./doit > $log_dir
+		local readonly result=$?
 	cd ..
 	if [ $result -eq 0 ]; then
 		cat $temp
@@ -51,12 +51,24 @@ function run () {
 
 LOG_DIR=${LOG_DIR:-log}
 mkdir -p ${LOG_DIR}
-mkdir -p stat
 
-for bench in $BENCHMARKS
+result=()
+for (( i=0; i<${#BENCHMARKS[@]}; i++ ))
 do
-	echo "running $bench ..." >&2
-	result=$(run benchmarks/$bench ${LOG_DIR}/${bench}.log)
-	echo $result
+	echo "running ${BENCHMARKS[$i]} ..." >&2
+	r=$(run benchmarks/${BENCHMARKS[$i]} ${LOG_DIR}/${BENCHMARKS[$i]}.log)
+	result[$i]=$r
 done
+
+echo "{"
+for (( i=0; i<${#result[@]}; i++ ))
+do
+	echo -n "${result[$i]}"
+	if [ $i -lt $((${#result[@]} - 1)) ]; then
+		echo ", "
+	else
+		echo ""
+	fi
+done
+echo "}"
 
