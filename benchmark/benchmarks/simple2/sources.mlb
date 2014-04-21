@@ -1,0 +1,9 @@
+local
+    $(MLTON_ROOT)/basis/basis.mlb
+    control.sml
+    param.sml
+    array2.sml
+    simple.sml
+in
+    doit.sml
+end

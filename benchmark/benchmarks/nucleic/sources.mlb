@@ -1,0 +1,7 @@
+local
+  $(MLTON_ROOT)/basis/basis.mlb
+  nucleic.sml
+  main.sml
+in
+  doit.sml
+end

@@ -1,0 +1,6 @@
+local
+  $(MLTON_ROOT)/basis/basis.mlb
+  cpstak.sml
+in
+  doit.sml
+end

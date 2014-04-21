@@ -1,0 +1,9 @@
+local
+  $(MLTON_ROOT)/basis/basis.mlb
+  terms.sml
+  rules.sml
+  boyer.sml
+  main.sml
+in
+  doit.sml
+end

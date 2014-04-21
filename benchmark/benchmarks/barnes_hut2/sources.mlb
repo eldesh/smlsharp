@@ -1,0 +1,16 @@
+local
+	$(MLTON_ROOT)/basis/basis.mlb
+	rand-sig.sml
+	rand.sml
+	vector-sig.sml
+	vector3.sml
+	vector.sml
+	space.sml
+	load.sml
+	grav.sml
+	getparam.sml
+	data-io.sml
+	main.sml
+in
+    doit.sml
+end

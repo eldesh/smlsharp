@@ -1,0 +1,6 @@
+local
+   $(MLTON_ROOT)/basis/basis.mlb
+   fft.sml
+in
+   doit.sml
+end

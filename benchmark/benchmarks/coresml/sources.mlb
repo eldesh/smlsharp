@@ -1,0 +1,5 @@
+local
+  $(MLTON_ROOT)/basis/basis.mlb
+in
+  fibonacci.sml
+end

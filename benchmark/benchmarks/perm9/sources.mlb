@@ -1,0 +1,6 @@
+local
+  $(MLTON_ROOT)/basis/basis.mlb
+  perm9.sml
+in
+  doit.sml
+end

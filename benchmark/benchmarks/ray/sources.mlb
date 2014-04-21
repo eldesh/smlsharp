@@ -1,0 +1,10 @@
+local
+    $(MLTON_ROOT)/basis/basis.mlb
+    objects.sml
+    ray.sml
+    interp.sml
+    interface.sml
+    main.sml
+in
+    doit.sml
+end

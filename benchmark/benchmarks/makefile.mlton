@@ -1,8 +1,35 @@
 SML = mlton
 DOIT_SUFFIX = .mlton
 
+# skip
+#   smlyacc
+#   nqueen
 BENCHMARKS = \
-    barnes_hut
+    barnes_hut  \
+    barnes_hut2 \
+    boyer       \
+	coresml     \
+    count_graphs \
+    cpstak \
+    diviter \
+    divrec \
+    fft \
+    gcbench \
+    knuth_bendix \
+    lexgen \
+    life \
+    logic \
+    mandelbrot \
+    mlyacc \
+    nucleic \
+    perm9 \
+    puzzle \
+    ratio_regions \
+    ray \
+    simple \
+    simple2 \
+    tsp \
+    vliw
 
 DOIT = $(addsuffix /doit$(DOIT_SUFFIX),$(BENCHMARKS))
 

@@ -1,0 +1,11 @@
+ local
+    $(MLTON_ROOT)/basis/basis.mlb
+    term.sml
+    trail.sml
+    unify.sml
+    data.sml
+    main.sml
+in
+    doit.sml
+end
+

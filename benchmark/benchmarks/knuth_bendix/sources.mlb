@@ -1,0 +1,6 @@
+local
+  $(MLTON_ROOT)/basis/basis.mlb
+  knuth-bendix.sml
+in
+  doit.sml
+end
