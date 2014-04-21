@@ -1,20 +1,10 @@
-#!/bin/sh
 
 # sml/nj
-SML=sml
-
-# build
-function build_nj () {
-	local readonly bench=$1
-	ml-build $bench/sources.cm Test.main $bench/doit
-}
-
-function run_nj () {
-	local readonly bench=$1
-	cd $bench
-		${SML} @SMLload=doit
-	cd ..
-}
+SML         = sml
+ML_BUILD    = ml-build
+OS          = linux
+ARCH        = x86
+DOIT_SUFFIX = .$(ARCH)-$(OS)
 
 # skip
 #   using smlyacc-lib (SML# specific)
@@ -25,27 +15,39 @@ function run_nj () {
 #     vliw
 #   Array2 is dupricated
 #     simple simple2
-BENCHMARKS='boyer count_graphs cpstak diviter divrec fft gcbench knuth_bendix lexgen life logic mandelbrot
-			nucleic perm9 puzzle ratio_regions ray tsp'
-for bench in $BENCHMARKS
-do
-	echo "build [$bench]..." >&2
-	build_nj $bench
-done
+BENCHMARKS = \
+	boyer \
+	count_graphs \
+	cpstak \
+	diviter \
+	divrec \
+	fft \
+	gcbench \
+	knuth_bendix \
+	lexgen \
+	life \
+	logic \
+	mandelbrot \
+	nucleic \
+	perm9 \
+	puzzle \
+	ratio_regions \
+	ray \
+	tsp
+
+DOIT = $(addsuffix /doit$(DOIT_SUFFIX),$(BENCHMARKS))
+
+all: $(DOIT)
 
 
-## run
-#${SML} < coresml/fibonacci.sml
-#
-#for bench in $BENCHMARKS
-#do
-#	run_nj $bench >/dev/null
-#	if [ $? -eq 0 ]; then
-#		echo "run success [$bench]" >&2
-#	else
-#		echo "run failure [$bench]" >&2
-#	fi
-#done
-#
-#
-#
+$(DOIT): %/doit$(DOIT_SUFFIX): %/sources.cm
+	$(ML_BUILD) $< Test.main $(dir $@)/doit
+
+
+.PHONY: clean
+clean:
+	for dir in $(BENCHMARKS);do \
+		rm -rf $$dir/.cm; \
+	done
+	rm -rf $(DOIT)
+
