@@ -25,11 +25,13 @@ BENCHMARKS=(
     ratio_regions
     ray
     simple
+    simple2
     tsp
     vliw)
 
-#SUFFIX=v1.2.0
-SUFFIX=v2.0.0
+# SML=smlsharp
+# #SUFFIX=v1.2.0 | v2.0.0
+SML=sml
 
 function toAbsolutePath () {
 	echo $(cd $(dirname $1) && pwd)/$(basename $1)
@@ -46,12 +48,18 @@ function run () {
 	local readonly name=$(basename $1)
 	local readonly now=$(date +"%Y-%m-%dT%H:%S:%M")
 	local readonly format="{\"time\":{\"elapsed\":%e, \"kernal\":%S, \"user\":%U}, \"memory\":{\"max\":%M}}"
-	local readonly log_dir=$(toAbsolutePath $2)
+	local readonly log_file=$(toAbsolutePath $2)
 	local readonly temp=$(mktemp)
 	trap "rm -rf $temp" EXIT
+	local error=0
 	cd $1
-		/usr/bin/time -f "${format}" -o ${temp} ./doit${SUFFIX} > $log_dir
-		local readonly error=$?
+	if [ $SML = "smlsharp" ]; then
+		/usr/bin/time -f "${format}" -o ${temp} ./doit${SUFFIX} > $log_file
+		error=$?
+	elif [ $SML = "sml" ]; then
+		/usr/bin/time -f "${format}" -o ${temp} ${SML} @SMLload=doit > $log_file
+		error=$?
+	fi
 	cd ..
 	if [ $error -eq 0 ]; then
 		make_result_json $name $now "$(cat $temp)"
