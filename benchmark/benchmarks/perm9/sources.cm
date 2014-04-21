@@ -1,5 +1,4 @@
 Group is
   $/basis.cm
-  nucleic.sml
-  main.sml
+  perm9.sml
   test.sml

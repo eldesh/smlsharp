@@ -1,3 +1,4 @@
 Group is 
-   ../timeit.sml
+   $/basis.cm
    mandelbrot.sml
+   test.sml

@@ -1,3 +1,4 @@
 Group is
-   ../timeit.sml
+   $/basis.cm
    life.sml
+   test.sml

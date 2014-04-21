@@ -1,2 +1,4 @@
 Group is
+  $/basis.cm
   ratio-regions.sml
+  test.sml

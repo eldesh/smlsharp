@@ -1,6 +1,7 @@
 Group is
-    ../timeit.sml    
+    $/basis.cm
     control.sml
     array2.sml
     simple.sml
     main.sml
+    test.sml

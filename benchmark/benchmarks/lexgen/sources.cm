@@ -1,3 +1,4 @@
 Group is
-   ../timeit.sml
+   $/basis.cm
    lexgen.sml
+   test.sml

@@ -25,7 +25,7 @@ structure Rand : RAND =
     type rand' = int  (* internal representation *)
 
     val a : rand' = 48271
-    val m : rand' = 2147483647  (* 2^31 - 1 *)
+    val m : rand' = valOf Int.maxInt (* 2147483647 = 2^31 - 1 *)
     val m_1 = m - 1
     val q = m div a
     val r = m mod a

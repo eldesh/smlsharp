@@ -1,5 +1,9 @@
 Group is
+    $/basis.cm
+(*
     ../timeit.sml
+*)
     terms.sml
     rules.sml
     boyer.sml
+    main.sml

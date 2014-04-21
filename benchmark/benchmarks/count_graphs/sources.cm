@@ -1,3 +1,7 @@
 Group is
+  $/basis.cm
+(*
   ../timeit.sml
+*)
   count-graphs.sml
+  test.sml

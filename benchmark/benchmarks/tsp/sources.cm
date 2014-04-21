@@ -1,5 +1,5 @@
 Group is
-    ../timeit.sml
+    $/basis.cm
     rand-sig.sml
     rand.sml
     lib-base-sig.sml
@@ -8,3 +8,4 @@ Group is
     build.sml
     tsp.sml
     main.sml
+    test.sml

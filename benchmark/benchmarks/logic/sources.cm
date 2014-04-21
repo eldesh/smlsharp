@@ -1,8 +1,9 @@
  Group is   
-    ../timeit.sml
+    $/basis.cm
     term.sml
     trail.sml
     unify.sml
     data.sml
     main.sml
+    test.sml
 
