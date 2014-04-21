@@ -28,25 +28,37 @@ BENCHMARKS=(
     tsp
     vliw)
 
+#SUFFIX=v1.2.0
+SUFFIX=v2.0.0
+
 function toAbsolutePath () {
 	echo $(cd $(dirname $1) && pwd)/$(basename $1)
+}
+
+function make_result_json () {
+	local readonly name=$1
+	local readonly  now=$2
+	local readonly result=$3
+	echo "{\"name\":\"$name\", \"date\":\"$now\", \"result\":$result}"
 }
 
 function run () {
 	local readonly name=$(basename $1)
 	local readonly now=$(date +"%Y-%m-%dT%H:%S:%M")
-	local readonly format="{\"name\":\"$name\", \"date\":\"$now\", \"time\":{\"elapsed\":%e, \"kernal\":%S, \"user\":%U}, \"memory\":{\"max\":%M}}"
+	local readonly format="{\"time\":{\"elapsed\":%e, \"kernal\":%S, \"user\":%U}, \"memory\":{\"max\":%M}}"
 	local readonly log_dir=$(toAbsolutePath $2)
 	local readonly temp=$(mktemp)
 	trap "rm -rf $temp" EXIT
 	cd $1
-		/usr/bin/time -f "${format}" -o ${temp} ./doit > $log_dir
-		local readonly result=$?
+		/usr/bin/time -f "${format}" -o ${temp} ./doit${SUFFIX} > $log_dir
+		local readonly error=$?
 	cd ..
-	if [ $result -eq 0 ]; then
-		cat $temp
+	if [ $error -eq 0 ]; then
+		make_result_json $name $now "$(cat $temp)"
+	else
+		make_result_json $name $now "null"
 	fi
-	return $result
+	return $error
 }
 
 LOG_DIR=${LOG_DIR:-log}
@@ -60,7 +72,7 @@ do
 	result[$i]=$r
 done
 
-echo "{"
+echo "["
 for (( i=0; i<${#result[@]}; i++ ))
 do
 	echo -n "${result[$i]}"
@@ -70,5 +82,5 @@ do
 		echo ""
 	fi
 done
-echo "}"
+echo "]"
 
