@@ -1,5 +1,10 @@
 #!/bin/env bash
 
+function usage () {
+	echo "$0:"
+	echo "  <smlnj/mlton/smlsharp> [<version>]"
+}
+
 BENCHMARKS=(
     barnes_hut2
     barnes_hut
@@ -29,9 +34,23 @@ BENCHMARKS=(
     tsp
     vliw)
 
-# SML=smlsharp
-# #SUFFIX=v1.2.0 | v2.0.0
-SML=sml
+if [ "$1" = "smlsharp" -a "$2" = "v2.0.0" ]; then
+	SML=smlsharp
+	SUFFIX=v2.0.0
+elif [ "$1" = "smlsharp" -a "$2" = "v1.2.0" ]; then
+	SML=smlsharp
+	SUFFIX=v1.2.0
+elif [ "$1" = "smlnj" ]; then
+	SML=sml
+elif [ "$1" = "mlton" ]; then
+	SML=mlton
+	SUFFIX=.mlton
+else
+	echo "error: unsupported platform $1:$2" >&2
+	usage;
+	exit 1
+fi
+
 
 function toAbsolutePath () {
 	echo $(cd $(dirname $1) && pwd)/$(basename $1)
@@ -53,11 +72,11 @@ function run () {
 	trap "rm -rf $temp" EXIT
 	local error=0
 	cd $1
-	if [ $SML = "smlsharp" ]; then
-		/usr/bin/time -f "${format}" -o ${temp} ./doit${SUFFIX} > $log_file
+	if [ $SML = "sml" ]; then
+		/usr/bin/time -f "${format}" -o ${temp} sml @SMLload=doit > $log_file
 		error=$?
-	elif [ $SML = "sml" ]; then
-		/usr/bin/time -f "${format}" -o ${temp} ${SML} @SMLload=doit > $log_file
+	elif [ $SML = "smlsharp" -o $SML = "mlton" ]; then
+		/usr/bin/time -f "${format}" -o ${temp} ./doit${SUFFIX} > $log_file
 		error=$?
 	fi
 	cd ..
