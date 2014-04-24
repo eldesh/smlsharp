@@ -198,6 +198,13 @@ simple/main.o: simple/main.sml simple/array2.smi simple/control.smi \
   simple/simple.smi simple/main.smi
 simple/simple.o: simple/simple.sml simple/array2.smi simple/control.smi \
   simple/simple.smi
+simple2/array2.o: simple2/array2.sml simple2/array2.smi simple2/array2.smi
+simple2/control.o: simple2/control.sml simple2/control.smi simple2/control.smi
+simple2/doit.o: simple2/doit.sml simple2/doit.smi simple2/array2.smi \
+ simple2/control.smi simple2/param.smi simple2/simple.smi simple2/doit.smi
+simple2/param.o: simple2/param.sml simple2/param.smi simple2/param.smi
+simple2/simple.o: simple2/simple.sml simple2/simple.smi simple2/array2.smi \
+ simple2/control.smi simple2/param.smi simple2/simple.smi
 smlyacc/doit.o: smlyacc/doit.sml smlyacc/main.smi smlyacc/doit.smi
 smlyacc/main.o: smlyacc/main.sml smlyacc/main.smi
 tsp/build.o: tsp/build.sml tsp/lib-base-sig.sml tsp/lib-base.smi \

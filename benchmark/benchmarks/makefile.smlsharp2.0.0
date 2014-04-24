@@ -27,6 +27,7 @@ BENCHMARKS = \
     ratio_regions/doit$(DOIT_SUFFIX) \
     ray/doit$(DOIT_SUFFIX) \
     simple/doit$(DOIT_SUFFIX) \
+    simple2/doit$(DOIT_SUFFIX) \
     tsp/doit$(DOIT_SUFFIX) \
     vliw/doit$(DOIT_SUFFIX)
 
