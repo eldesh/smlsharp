@@ -159,6 +159,7 @@ SMLNJ_VERSION=`echo | $SML 2>&1`
 if test "x$?" = "x0"; then
   SMLNJ_VERSION=`echo "$SMLNJ_VERSION" | \
     sed -n -e 's/^Standard ML of New Jersey, Version \\([[0-9\.]]*\\).*/\1/' \
+           -e 's/^Standard ML of New Jersey ([[^)]]*) v\\([[0-9\.]]*\\).*/\1/' \
            -e 's/^Standard ML of New Jersey v\\([[0-9\.]]*\\).*/\\1/' \
            -e '/^[[0-9.]]*$/p'`
   AC_MSG_RESULT([$SMLNJ_VERSION])
