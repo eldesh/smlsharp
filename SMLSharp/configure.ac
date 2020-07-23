@@ -133,7 +133,7 @@ case "$host_os" in
     ;;
 esac
 
-SML_PATH_PROG_OR_BAT(SML, sml)
+SML_PATH_PROG_OR_BAT([SML], [sml -32])
 #SML_PATH_PROG_OR_BAT(MLYACC, ml-yacc)
 #SML_PATH_PROG_OR_BAT(MLLEX, ml-lex)
 AC_SUBST(SML_BAT)
